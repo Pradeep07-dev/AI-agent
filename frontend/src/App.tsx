@@ -66,11 +66,14 @@ const ChatApp = () => {
 
     try {
       const sessionId = localStorage.getItem("sessionId");
-      const res = await fetch("http://localhost:3000/chat/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage.text, sessionId }),
-      });
+      const res = await fetch(
+        "https://ai-agent-gmr1.onrender.com/chat/message",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMessage.text, sessionId }),
+        }
+      );
 
       const data = await res.json();
 
@@ -104,7 +107,9 @@ const ChatApp = () => {
       if (!sessionId) return;
 
       try {
-        const res = await fetch(`http://localhost:3000/chat/${sessionId}`);
+        const res = await fetch(
+          `https://ai-agent-gmr1.onrender.com/chat/${sessionId}`
+        );
         const data = await res.json();
 
         console.log("Res: ", res);

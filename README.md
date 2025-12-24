@@ -1,6 +1,6 @@
 # 🎧 AI Live Chat Agent
 
-A minimal yet robust **AI-powered live chat widget** for customer support — built with **Node.js / TypeScript**, **React**, and **PostgreSQL**, integrated with **OpenAI**'s LLM.  
+A minimal yet robust **AI-powered live chat widget** for customer support — built with **Node.js / TypeScript**, **React / Typescript**, and **PostgreSQL**, integrated with **OpenAI**'s LLM.  
 This project implements a persistent chat backend, intelligent AI replies with guardrails, and a friendly frontend UI.
 
 ---
@@ -16,12 +16,6 @@ This project implements a persistent chat backend, intelligent AI replies with g
 - ⚠️ Input validation + robust error handling
 - 🛡️ Rate limiting and cost control
 - 📦 Environment-based configuration using `.env`
-
----
-
-## 🚀 Live Demo
-
-👉 **Deployed URL:** _Add your deployed link here (Vercel / Render / Netlify)_
 
 ---
 
@@ -42,27 +36,33 @@ This project implements a persistent chat backend, intelligent AI replies with g
 
 ### 1️⃣ Clone the Repository
 
-`````bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+```bash
+git clone https://github.com/Pradeep07-dev/AI-agent.git
+cd ai-agent
 
-
+```
 
 ### 2️⃣ Install Dependencies Repository
 
-# Backend
+#### Backend
+
+```bash
 cd backend
 npm install
+```
 
-# Frontend
+#### Frontend
+
+```bash
 cd frontend
 npm install
-
+```
 
 ### 3️⃣ Environment Variables
 
 Create a .env file inside the backend folder:
 
+```bash
 # Server
 PORT=3000
 
@@ -78,116 +78,108 @@ OPENAI_KEY=sk-your-openai-key
 
 # CORS
 FRONTEND_ORIGIN=http://localhost:5173
-
-
+```
 
 ### 4️⃣ Database Setup
 
-Make sure PostgreSQL is running.
+- Make sure PostgreSQL is running.
 
-On backend startup, the app automatically:
+- On backend startup, the app automatically:
 
-Creates required tables
+- Creates required tables
 
-Seeds the knowledge base
+- Seeds the knowledge base
 
-Tables created:
+- Tables created:
 
-conversations
+  - conversations
 
-messages
+  - messages
 
-knowledge_base
+  - knowledge_base
 
-No manual migrations required.
-
-
+  - No manual migrations required.
 
 ### 5️⃣ Run the Backend
 
-````bash
+```bash
 cd backend
 npm run dev
+```
 
+#### For production:
 
-For production:
-
-````bash
+```bash
 npm run build
 npm start
-
-
+```
 
 ### 6️⃣ Run the Frontend
 
-````bash
+```bash
 cd frontend
 npm run dev
+```
 
+---
 
-
-
-
-
-
-🏗 Architecture Overview
+## 🏗 Architecture Overview
 
 Frontend (React + Typescript)
-      ↓ HTTP
+↓ HTTP
 Backend (Express + TypeScript)
-      ↓
+↓
 PostgreSQL (Conversations & Messages)
-      ↓
+↓
 OpenAI API (LLM)
 
+### Responsibilities
 
-## Responsibilities
+#### Frontend
 
-## Frontend
+- Chat UI
 
-Chat UI
+- Stores sessionId
 
-Stores sessionId
+- Displays message history
 
-Displays message history
+- Handles loading & errors
 
-Handles loading & errors
+#### Backend
 
-## Backend
+- Input validation
 
-Input validation
+- Session management
 
-Session management
+- Message persistence
 
-Message persistence
+- LLM orchestration
 
-LLM orchestration
+- Rate limiting & error handling
 
-Rate limiting & error handling
+- Database
 
-Database
+- Stores conversations
 
-Stores conversations
+- Stores messages
 
-Stores messages
+- Stores FAQ / domain knowledge
 
-Stores FAQ / domain knowledge
-
-
+---
 
 ## 🤖 LLM Integration & Prompting
-Provider
+
+#### Provider
 
 OpenAI – gpt-4o-mini
 
+#### Prompt Strategy
 
-Prompt Strategy
-
-The AI is instructed to act as a customer support agent and strictly use only provided knowledge.
+- The AI is instructed to act as a customer support agent and strictly use only provided knowledge.
 
 Example system prompt:
 
-````bash
+```bash
 Your are a helpful customer support agent for a small e-commerce store.
 
     Rules:
@@ -201,103 +193,101 @@ Your are a helpful customer support agent for a small e-commerce store.
   "I'm not sure about that. Please contact support."
 
 You MUST NOT answer questions outside the store knowledge.
+```
 
+#### Cost Controls
 
-Cost Controls
+- Max tokens capped (≈300)
 
-    1. Max tokens capped (≈300)
+- Conversation history limited
 
-    2. Conversation history limited
+- Rate limiting enabled
 
-    3. Rate limiting enabled
-
-
-
+---
 
 ## 📚 Domain Knowledge (Seeded)
 
-The AI is seeded with fictional store FAQs:
+#### The AI is seeded with fictional store FAQs:
 
-Shipping policy
+- Shipping policy
 
-Return & refund policy
+- Return & refund policy
 
-Support hours
+- Support hours
 
 These are stored in the database and injected into the prompt.
 
-
-
-
 ## 📡 API Endpoints
-POST /chat/message
 
-Request
-````bash
+#### POST /chat/message
+
+#### Request
+
+```bash
 {
   "message": "Do you ship to USA?",
   "sessionId": "optional-session-id"
 }
+```
 
+#### Response
 
-Response
-````bash
+```bash
 {
   "message": "Yes, we ship to the USA. Delivery takes 5–7 business days.",
   "sessionId": "generated-or-existing-session-id"
 }
+```
 
-
-GET /chat/:sessionId
+#### GET /chat/:sessionId
 
 Fetch full message history for a conversation.
 
-
-
-
+---
 
 ## 🗃 Data Model
-Conversations
-````bash
+
+#### Conversations
+
+```bash
 id (UUID)
 created_at (timestamp)
+```
 
-Messages
-````bash
+#### Messages
+
+```bash
 id
 conversation_id
 sender ('user' | 'ai')
 text
 created_at
+```
 
-
-
+---
 
 ## 🧠 Trade-offs & Assumptions
 
-No authentication
+- No authentication
 
-Limited history to reduce LLM cost
+- Limited history to reduce LLM cost
 
-Redis omitted for simplicity
+- Redis omitted for simplicity
 
-Single LLM model
+- Single LLM model
 
-No third-party integrations (Shopify, WhatsApp, etc.)
+- No third-party integrations (Shopify, WhatsApp, etc.)
 
-
+---
 
 ## 🚧 If I Had More Time…
 
-Redis-based caching & rate limiting
+- Redis-based caching & rate limiting
 
-WebSocket real-time chat
+- WebSocket real-time chat
 
-Pagination for long conversations
+- Pagination for long conversations
 
-Analytics dashboard
+- Analytics dashboard
 
-Multi-channel support (WhatsApp, Instagram)
-
-
-`````
+- Multi-channel support (WhatsApp, Instagram)
