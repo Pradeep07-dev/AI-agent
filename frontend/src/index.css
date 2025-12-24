@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+:root {
+  /* background: #f3f4f6; */
+  background: #efedec;
+}
+
+.arrow-down-button {
+  bottom: 7.5rem;
+}
+
+@media (min-height: 700px) and (max-height: 750px) {
+  .arrow-down-button {
+    bottom: 9.5rem;
+  }
+}
+@media (min-height: 751px) {
+  .arrow-down-button {
+    bottom: 14rem;
+  }
+}
