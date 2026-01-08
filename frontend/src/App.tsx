@@ -77,9 +77,6 @@ const ChatApp = () => {
 
       const data = await res.json();
 
-      console.log("Res: ", res);
-      console.log("data: ", data);
-
       if (res.status !== 200) {
         showError(data?.message);
         setLoading(false);
@@ -102,7 +99,6 @@ const ChatApp = () => {
   useEffect(() => {
     const loadMessages = async () => {
       const sessionId = localStorage.getItem("sessionId");
-      console.log("sessionL: ", sessionId);
 
       if (!sessionId) return;
 
@@ -111,9 +107,6 @@ const ChatApp = () => {
           `https://ai-agent-gmr1.onrender.com/chat/${sessionId}`
         );
         const data = await res.json();
-
-        console.log("Res: ", res);
-        console.log("Data: ", data);
 
         if (res.status !== 200) {
           showError(data?.message);
